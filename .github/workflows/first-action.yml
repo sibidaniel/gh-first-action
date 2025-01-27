@@ -19,5 +19,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build
-        run: cat test.txt
+        run: pwd
 
