@@ -10,16 +10,8 @@ jobs:
     steps:
       - name: Print Greeting
         run: echo "Hello World!"
-  checkout:
-    runs-on: ubuntu-latest
-    steps:
       - name: Checkout code
         uses: actions/checkout@v2
-    needs: greet
-  build:
-    runs-on: ubuntu-latest
-    steps:
       - name: Build
-        run: ls -ltr
-    needs: checkout
+        run: cat test.txt
 
