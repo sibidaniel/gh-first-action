@@ -1,0 +1,12 @@
+name: Output Workflow
+on: workflow_dispatch
+jobs:
+  output:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Output
+        run: echo "${{toJson(github)}}"
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build
+        run: cat test.txt
