@@ -19,6 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build
-        run: pwd
+        run: cat test.txt
     needs: checkout
 
