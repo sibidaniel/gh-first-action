@@ -8,5 +8,4 @@ jobs:
         run: echo "Hello World!"
       - name: Print Goodbye
         run: |
-            echo "Good Bye!"
-            echo "chal bhag!!"
+              whoami
