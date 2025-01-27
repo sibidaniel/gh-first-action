@@ -1,11 +1,23 @@
 name: First Workflow
-on: workflow_dispatch
+on: 
+  pull_request:
+    types: [opened, synchronize, reopened]
+  
+  workflow_dispatch:
 jobs:
-  first-job:
+  greet:
     runs-on: ubuntu-latest
     steps:
       - name: Print Greeting
         run: echo "Hello World!"
-      - name: Print Goodbye
-        run: |
-             df -h
+  checkout:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build
+        run: cat test.txt
+
