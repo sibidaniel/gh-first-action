@@ -1,0 +1,13 @@
+name: Output Issues Workflow
+on:
+  issues:
+    types: [opened, edited]
+jobs:
+  output:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Output
+        run: |
+          echo "${{ github.event.issue.title }}"
+          echo "${{ github.event.issue.user.login }}"
+          echo "${{ github.event.issue.body }}"
