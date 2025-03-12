@@ -33,9 +33,18 @@ jobs:
           ISSUE_NUMBER=${{ github.event.issue.number }}
           REPO=${{ github.repository }}
 
-          echo "Closing issue #$ISSUE_NUMBER in $REPO"
+          echo "Adding comment before closing issue #$ISSUE_NUMBER in $REPO"
 
-          curl -X PATCH -H "Authorization: Bearer $GITHUB_TOKEN" \
+          # Add a comment to the issue
+          curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
+               -H "Accept: application/vnd.github.v3+json" \
+               https://api.github.com/repos/$REPO/issues/$ISSUE_NUMBER/comments \
+               -d '{"body": "This issue is being closed automatically as the comment contains a completion keyword."}'
+
+          echo "Closing issue #$ISSUE_NUMBER"
+
+          # Close the issue
+          curl -X PATCH -H "Authorization: token $GITHUB_TOKEN" \
                -H "Accept: application/vnd.github.v3+json" \
                https://api.github.com/repos/$REPO/issues/$ISSUE_NUMBER \
                -d '{"state": "closed"}'
