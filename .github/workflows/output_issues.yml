@@ -35,7 +35,7 @@ jobs:
 
           echo "Closing issue #$ISSUE_NUMBER in $REPO"
 
-          curl -X PATCH -H "Authorization: token GITHUB_TOKEN" \
+          curl -X PATCH -H "Authorization: Bearer $GITHUB_TOKEN" \
                -H "Accept: application/vnd.github.v3+json" \
                https://api.github.com/repos/$REPO/issues/$ISSUE_NUMBER \
                -d '{"state": "closed"}'
