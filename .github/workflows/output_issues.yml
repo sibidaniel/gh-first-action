@@ -5,7 +5,9 @@ on:
     types: [opened, edited]
   issue_comment:
     types: [created, edited]
-
+permissions:
+  issues: write
+  
 jobs:
   handle_issue:
     runs-on: ubuntu-latest
