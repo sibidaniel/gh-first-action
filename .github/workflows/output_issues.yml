@@ -26,7 +26,7 @@ jobs:
       - name: Close issue if comment contains 'working' or 'completed'
         if: github.event_name == 'issue_comment' && contains(github.event.comment.body, 'working') || contains(github.event.comment.body, 'completed')
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ISSUE_NUMBER=${{ github.event.issue.number }}
           REPO=${{ github.repository }}
