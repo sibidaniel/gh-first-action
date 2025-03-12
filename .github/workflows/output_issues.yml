@@ -26,14 +26,14 @@ jobs:
       - name: Close issue if comment contains 'working' or 'completed'
         if: github.event_name == 'issue_comment' && contains(github.event.comment.body, 'working') || contains(github.event.comment.body, 'completed')
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
         run: |
           ISSUE_NUMBER=${{ github.event.issue.number }}
           REPO=${{ github.repository }}
 
           echo "Closing issue #$ISSUE_NUMBER in $REPO"
 
-          curl -X PATCH -H "Authorization: Bearer $TOKEN" \
+          curl -X PATCH -H "Authorization: Bearer $GITHUB_TOKEN" \
                -H "Accept: application/vnd.github.v3+json" \
                https://api.github.com/repos/$REPO/issues/$ISSUE_NUMBER \
                -d '{"state": "closed"}'
