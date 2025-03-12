@@ -1,13 +1,39 @@
-name: Output Issues Workflow
+name: Issue Event Handler
+
 on:
   issues:
     types: [opened, edited]
+  issue_comment:
+    types: [created, edited]
+
 jobs:
-  output:
+  handle_issue:
     runs-on: ubuntu-latest
     steps:
-      - name: Print Output
+      - name: Print issue details
+        if: github.event_name == 'issues'
         run: |
-          echo "${{ github.event.issue.title }}"
-          echo "${{ github.event.issue.user.login }}"
-          echo "${{ github.event.issue.body }}"
+          echo "Issue Title: ${{ github.event.issue.title }}"
+          echo "Issue Author: ${{ github.event.issue.user.login }}"
+          echo "Issue Body: ${{ github.event.issue.body }}"
+
+      - name: Print comment details
+        if: github.event_name == 'issue_comment'
+        run: |
+          echo "Comment Author: ${{ github.event.comment.user.login }}"
+          echo "Comment Body: ${{ github.event.comment.body }}"
+
+      - name: Close issue if comment contains 'working' or 'completed'
+        if: github.event_name == 'issue_comment' && contains(github.event.comment.body, 'working') || contains(github.event.comment.body, 'completed')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ISSUE_NUMBER=${{ github.event.issue.number }}
+          REPO=${{ github.repository }}
+
+          echo "Closing issue #$ISSUE_NUMBER in $REPO"
+
+          curl -X PATCH -H "Authorization: Bearer $GITHUB_TOKEN" \
+               -H "Accept: application/vnd.github.v3+json" \
+               https://api.github.com/repos/$REPO/issues/$ISSUE_NUMBER \
+               -d '{"state": "closed"}'
